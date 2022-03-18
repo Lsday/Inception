@@ -1,7 +1,16 @@
 FROM alpine
 
-RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client
+RUN apk update
+RUN apk add mariadb mariadb-client mariadb-common openrc
 
-#COPY tools/init_db.sh /temp/init_db.sh 
+RUN openrc
+RUN touch /run/openrc/softlevel
 
-#ENTRYPOINT ["sh","/temp/init_db.sh"]
+
+#COPY conf.wordpress.sql 
+
+ADD tools/init_db.sh .
+RUN chmod +x /init_db.sh
+
+
+ENTRYPOINT ["sh","./init_db.sh"]
