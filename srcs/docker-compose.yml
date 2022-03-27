@@ -1,9 +1,4 @@
-version: '3.5'
-
-networks:
-  inception_network:
-    name: inception_network
-    driver: bridge
+version: '3.8'
 
 services:
   mariadb:
@@ -14,7 +9,7 @@ services:
       networks: 
         - inception_network
       volumes:
-      - /home/oronda/data/mysql:/var/lib/mysql
+      - mariadb-volume:/var/lib/mysql
       env_file:
         - .env
       restart: unless-stopped
@@ -27,9 +22,7 @@ services:
     env_file:
         - .env
     volumes: 
-      - /home/oronda/data/html:/var/www/html  
-    #links:
-    #  - mariadb    
+      - wordpress-volume:/var/www/html     
     networks: 
       - inception_network
     restart: always
@@ -42,11 +35,35 @@ services:
     ports:
       - 443:443   
     volumes:  
-      - /home/oronda/Desktop/Inception/srcs/requirements/nginx/conf/:/etc/nginx/conf.d 
-      - /home/oronda/data/html:/var/www/html 
+      - nginx-volume:/etc/nginx/conf.d 
+      - wordpress-volume:/var/www/html 
     networks: 
       - inception_network
-    #links:
-    #  - wordpress
+
+  
+volumes:
+  wordpress-volume:
+    driver_opts:
+      o: bind
+      device: "/home/oronda/data/www"
+      type: none
+    driver: local
+  mariadb-volume:
+    driver_opts:
+      o: bind
+      device: "/home/oronda/data/mysql"
+      type: none
+    driver: local
+  nginx-volume:
+    driver_opts:
+      o: bind
+      device: "/home/Inception/srcs/requirements/nginx/conf/"
+      type: none
+    driver: local
+
+networks:
+  inception_network:
+    name: inception_network
+    driver: bridge
 
   
