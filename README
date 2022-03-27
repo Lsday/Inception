@@ -3,3 +3,4 @@
   # Mariadb:
     https://www.librebyte.net/en/data-base/how-to-install-mariadb-on-alpine-linux/ 
     https://wiki.alpinelinux.org/wiki/MariaDB
+	https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
