@@ -3,6 +3,13 @@ MYSQLUSER=mysql
 WORDPRESS_USER=www-data
 DATAPATH=/home/${USER}/data
 
+# Colors variables
+RED = \033[1;31m
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
+BLUE = \033[1;34m
+RESET = \033[0m
+
 all:
 	@echo "Datapath = /home/${USER}/data";
 	@echo "Searching for user ${MYSQLUSER} ...";
@@ -40,19 +47,29 @@ all:
 	@sudo chown -R mysql:mysql ${DATAPATH}/mysql; 
 	@sudo chown -R www-data:www-data ${DATAPATH}/html; 
 	
-	#@docker-compose -f ./srcs/docker-compose.yml up 
+	@docker-compose -f ./srcs/docker-compose.yml up 
 
 down:
 	@docker-compose -f ./srcs/docker-compose.yml down
 
-re:
+re: clean all
 	@docker-compose -f srcs/docker-compose.yml up --build
 
-clean:
-	@docker stop $$(docker ps -qa);\
-	docker rm $$(docker ps -qa);\
-	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q);\
+
+	
+clean: 	
+	@docker stop $$(docker ps -qa) || true; 
+	docker rm $$(docker ps -qa) || true; \
+	docker rmi -f $$(docker images -qa) || true; \
+	docker volume rm $$(docker volume ls -q) || true; \
+	docker network rm $$(docker network ls -q) || true; 
+
+	
+	@if [ -d "${DATAPATH}" ]; then \
+		echo "$(RED)████████████████████ Deleting volume █████████████████████$(RESET)";\
+		sudo rm -rf ${DATAPATH}; \
+	fi 
+
+
 
 .PHONY: all re down clean

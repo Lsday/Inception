@@ -1,8 +1,7 @@
-version: '3.8'
-
+version: '3.7'
 services:
   mariadb:
-      image: mariadb
+      build: requirements/mariadb
       container_name: mariadb
       ports:
       - 3306:3306
@@ -14,53 +13,15 @@ services:
         - .env
       restart: unless-stopped
 
-  wordpress:
-    image:  wordpress:php7.3-fpm-alpine
-    container_name: wordpress
-    depends_on:  
-      - mariadb
-    env_file:
-        - .env
-    volumes: 
-      - wordpress-volume:/var/www/html     
-    networks: 
-      - inception_network
-    restart: always
-
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    depends_on:  
-      - wordpress
-    ports:
-      - 443:443   
-    volumes:  
-      - nginx-volume:/etc/nginx/conf.d 
-      - wordpress-volume:/var/www/html 
-    networks: 
-      - inception_network
-
   
 volumes:
-  wordpress-volume:
-    driver_opts:
-      o: bind
-      device: "/home/oronda/data/www"
-      type: none
-    driver: local
   mariadb-volume:
     driver_opts:
       o: bind
       device: "/home/oronda/data/mysql"
       type: none
     driver: local
-  nginx-volume:
-    driver_opts:
-      o: bind
-      device: "/home/Inception/srcs/requirements/nginx/conf/"
-      type: none
-    driver: local
-
+  
 networks:
   inception_network:
     name: inception_network
