@@ -10,7 +10,10 @@ YELLOW = \033[1;33m
 BLUE = \033[1;34m
 RESET = \033[0m
 
-all:
+up:
+	@sudo docker-compose -f ./srcs/docker-compose.yml up --build
+
+create :
 	@echo "Datapath = /home/${USER}/data";
 #	@echo "Searching for user ${MYSQLUSER} ...";
 #	@if [ "id -u ${MYSQLUSER}" ]; then \
@@ -30,32 +33,30 @@ all:
 #	@echo "Searching for mysql and html dir in datapath ...";
 
 	@if [ -d "${DATAPATH}/mysql" ]; then \
+		echo "$(GREEN)████████████████████ MYSQL Data exist █████████████████████$(RESET)";\
 		echo "mysql dir exists"; \
 	else \
+		echo "$(YELLOW)████████████████████ Creating Data Dir MYSQL█████████████████████$(RESET)";\
 		echo "dir mysql not exist, creating dir"; \
 		mkdir -p ${DATAPATH}/mysql; \
 	fi \
 
 	@if [ -d "${DATAPATH}/html" ]; then \
+		echo "$(GREEN)████████████████████ Worpress data exist █████████████████████$(RESET)";\
 		echo "html dir exists"; \
 	else \
+		echo "$(YELLOW)████████████████████ Creating Data Dir HTML█████████████████████$(RESET)";\
 		echo "dir html not exist, creating dir"; \
 		mkdir -p ${DATAPATH}/html; \
 	fi \
 
 	@echo "Set dirs owners ..."; 
 	@sudo chown -R mysql:mysql ${DATAPATH}/mysql; 
-	@sudo chown -R root:root ${DATAPATH}/html; 
-	
-	@sudo docker-compose -f ./srcs/docker-compose.yml up --build
+	@sudo chown -R oronda:oronda ${DATAPATH}/html; 
 
 down:
 	@docker-compose -f ./srcs/docker-compose.yml down
 
-re: clean all
-
-
-	
 clean: 	
 	@docker stop $$(docker ps -qa) || true; 
 	docker rm $$(docker ps -qa) || true; \
@@ -63,12 +64,15 @@ clean:
 	docker volume rm $$(docker volume ls -q) || true; \
 	docker network rm $$(docker network ls -q) || true; 
 
-	
-	@if [ -d "${DATAPATH}" ]; then \
-		echo "$(RED)████████████████████ Deleting volume █████████████████████$(RESET)";\
+
+delete:
+#	@if [ -d "${DATAPATH}" ]; then \
+		echo "$(RED)████████████████████ Deleting LocalData █████████████████████$(RESET)";\
 		sudo rm -rf ${DATAPATH}; \
-	fi 
+	fi \
 
+re: clean up
 
+deleteall: delete clean
 
 .PHONY: all re down clean

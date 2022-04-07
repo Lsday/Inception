@@ -8,7 +8,7 @@ services:
       networks: 
         - inception_network
       volumes:
-      - mariadb-volume:/var/lib/mysql
+      - /home/oronda/data/mysql:/var/lib/mysql
       env_file:
         - .env
       restart: unless-stopped
@@ -19,9 +19,9 @@ services:
       depends_on:  
         - wordpress
       ports:
-        - 80:80   
-      volumes:  
-        - /home/oronda/data/html/wordpress:/var/www/html
+        - 80:80
+      volumes: 
+       - /home/oronda/data/html/wordpress:/var/www/html/wordpress
       networks: 
         - inception_network
       restart: unless-stopped
@@ -29,8 +29,8 @@ services:
   wordpress:
       build: requirements/wordpress
       container_name: wordpress
-      #depends_on:  
-      #  - mariadb
+      depends_on:  
+        - mariadb
       env_file:
           - .env
       ports:
@@ -42,12 +42,18 @@ services:
       restart: always
   
 
+  adminer:
+    image: adminer
+    depends_on:  
+        - mariadb
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks: 
+        - inception_network
+    
 
-
-  
 networks:
   inception_network:
-    name: inception_network
-    driver: bridge
-
   
