@@ -19,7 +19,7 @@ services:
       depends_on:  
         - wordpress
       ports:
-        - 80:80
+        - 443:443
       volumes: 
        - /home/oronda/data/html/wordpress:/var/www/html/wordpress
       networks: 
