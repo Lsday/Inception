@@ -1,4 +1,4 @@
-FROM  alpine:3.12.0
+FROM  alpine:3.15.4
 
 RUN apk update
 RUN apk add php7-common php7-iconv php7-json php7-gd php7-curl php7-xml \
