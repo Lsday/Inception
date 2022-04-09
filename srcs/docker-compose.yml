@@ -93,6 +93,18 @@ services:
     restart: always
     env_file:
       - .env
+
+  website:
+    container_name: site
+    build: requirements/bonus/site/
+    image: site
+    networks:
+      - inception_network
+    ports:
+      - "1234:1234"
+    restart: always
+    env_file:
+      - .env
   
 networks:
   inception_network:
