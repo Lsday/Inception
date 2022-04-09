@@ -1,17 +1,17 @@
 version: '3.7'
 services:
   mariadb:
-      build: requirements/mariadb
-      container_name: mariadb
-      ports:
-      - 3306:3306
-      networks: 
-        - inception_network
-      volumes:
-      - /home/oronda/data/mysql:/var/lib/mysql
-      env_file:
-        - .env
-      restart: unless-stopped
+    build: requirements/mariadb
+    container_name: mariadb
+    ports:
+    - 3306:3306
+    networks: 
+      - inception_network
+    volumes:
+    - /home/oronda/data/mysql:/var/lib/mysql
+    env_file:
+      - .env
+    restart: unless-stopped
 
   nginx:
       build: requirements/nginx
@@ -41,7 +41,6 @@ services:
         - inception_network
       restart: always
   
-
   adminer:
     build: requirements/bonus/adminer/
     container_name: adminer
@@ -52,6 +51,22 @@ services:
     networks:
       - inception_network
     restart: always
+
+  ftp:
+    build: requirements/bonus/ftp/
+    container_name: ftp
+    depends_on:
+      - wordpress
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    volumes: 
+     - /home/oronda/data/html/wordpress:/var/www/html/wordpress  
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - inception_network
     
 
 networks:
