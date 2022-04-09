@@ -44,10 +44,23 @@ services:
   adminer:
     build: requirements/bonus/adminer/
     container_name: adminer
+    depends_on:
+      - mariadb
     ports:
       - 8080:8080
     depends_on:
       - nginx
+    networks:
+      - inception_network
+    restart: always
+
+  phpmyadmin:
+    build: requirements/bonus/phpmyadmin/
+    container_name: phpmyadmin
+    depends_on:
+      - redis
+    ports:
+      - 8081:8081
     networks:
       - inception_network
     restart: always
