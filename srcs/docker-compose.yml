@@ -8,7 +8,7 @@ services:
     networks: 
       - inception_network
     volumes:
-    - /home/oronda/data/mysql:/var/lib/mysql
+    - mariadb-data:/var/lib/mysql
     env_file:
       - .env
     restart: unless-stopped
@@ -21,7 +21,7 @@ services:
       ports:
         - 443:443
       volumes: 
-       - /home/oronda/data/html/wordpress:/var/www/html/wordpress
+       - wordpress-data:/var/www/html/wordpress
       networks: 
         - inception_network
       restart: unless-stopped
@@ -36,7 +36,7 @@ services:
       ports:
         - 9000:9000 
       volumes: 
-       - /home/oronda/data/html/wordpress:/var/www/html/wordpress
+       - wordpress-data:/var/www/html/wordpress
       networks: 
         - inception_network
       restart: always
@@ -74,7 +74,7 @@ services:
       - "21:21"
       - "21100-21110:21100-21110"
     volumes: 
-     - /home/oronda/data/html/wordpress:/var/www/html/wordpress  
+     - wordpress-data:/var/www/html/wordpress  
     env_file:
       - .env
     restart: always
@@ -108,4 +108,16 @@ services:
   
 networks:
   inception_network:
+
+volumes:
+  mariadb-data:
+    driver_opts:
+      type: none
+      device: /home/oronda/data/mysql
+      o: bind
+  wordpress-data:
+    driver_opts:
+      type: none
+      device: /home/oronda/data/html/wordpress
+      o: bind
   
