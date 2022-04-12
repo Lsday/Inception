@@ -1,6 +1,9 @@
-## links : 
+
+This project aims to broaden your knowledge of system administration by using Docker.
+You will virtualize several Docker images, creating them in your new personal virtual
+machine
 
   # Mariadb:
-    https://www.librebyte.net/en/data-base/how-to-install-mariadb-on-alpine-linux/ 
-    https://wiki.alpinelinux.org/wiki/MariaDB
-	https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
+	https://www.librebyte.net/en/data-base/how-to-install-mariadb-on-alpine-linux/ 
+	https://wiki.alpinelinux.org/wiki/MariaDB
+    	https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
