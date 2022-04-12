@@ -5,6 +5,7 @@ RUN apk update
 RUN apk add --update nodejs npm
 
 ADD ./tools/index.html .
-ADD ./tools/orondajs.js .
+ADD ./tools/oronda.js .
+ADD ./tools/main.css .
 
-CMD node orondajs.js
+CMD node oronda.js
