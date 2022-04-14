@@ -66,7 +66,7 @@ clean:
 
 
 delete:
-#	@if [ -d "${DATAPATH}" ]; then \
+	#@if [ -d "${DATAPATH}" ]; then \
 		echo "$(RED)████████████████████ Deleting LocalData █████████████████████$(RESET)";\
 		sudo rm -rf ${DATAPATH}; \
 	fi \
